@@ -305,6 +305,23 @@
             color: #000;
         }
 
+        .impressum-link {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .impressum-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .impressum-link a:hover {
+            text-decoration: underline;
+        }
+
         @media (max-width: 600px) {
             .header-sticky {
                 padding: 20px;
@@ -357,6 +374,27 @@
                 </div>
                 <button type="submit">Anmelden</button>
             </form>
+        </div>
+    </div>
+
+    <!-- Impressum Modal -->
+    <div id="impressumModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeImpressumModal()">&times;</span>
+            <h2 class="modal-header">Impressum & Datenschutz</h2>
+            <div style="text-align: left; font-size: 14px; color: #333;">
+                <p><strong>Verantwortlich für diese Seite:</strong><br>
+                Michael Dabrock<br>
+                E-Mail: Michael.dabrock@gmx.es</p>
+
+                <p style="margin-top: 15px;"><strong>Widerruf der Einwilligung:</strong><br>
+                Sie können Ihre Einwilligung zur Speicherung und Nutzung Ihrer E-Mail-Adresse jederzeit widerrufen.
+                Senden Sie dazu einfach eine E-Mail an Michael.dabrock@gmx.es mit dem Betreff "Widerruf Klassentreffen".</p>
+
+                <p style="margin-top: 15px;"><strong>Datenschutz:</strong><br>
+                Ihre E-Mail-Adresse wird ausschließlich für die Organisation und Einladung zum 40-jährigen Abitur-Treffen verwendet.
+                Die Daten werden vertraulich behandelt und nicht an Dritte weitergegeben.</p>
+            </div>
         </div>
     </div>
 
@@ -426,19 +464,8 @@
             </button>
         </div>
 
-        <div style="margin-top: 40px; padding-top: 30px; border-top: 2px solid #e0e0e0; font-size: 12px; color: #666;">
-            <h3 style="color: #667eea; margin-bottom: 10px;">Impressum & Datenschutz</h3>
-            <p><strong>Verantwortlich für diese Seite:</strong><br>
-            Michael Dabrock<br>
-            E-Mail: Michael.dabrock@gmx.es</p>
-
-            <p style="margin-top: 15px;"><strong>Widerruf der Einwilligung:</strong><br>
-            Sie können Ihre Einwilligung zur Speicherung und Nutzung Ihrer E-Mail-Adresse jederzeit widerrufen.
-            Senden Sie dazu einfach eine E-Mail an Michael.dabrock@gmx.es mit dem Betreff "Widerruf Klassentreffen".</p>
-
-            <p style="margin-top: 15px;"><strong>Datenschutz:</strong><br>
-            Ihre E-Mail-Adresse wird ausschließlich für die Organisation und Einladung zum 40-jährigen Abitur-Treffen verwendet.
-            Die Daten werden vertraulich behandelt und nicht an Dritte weitergegeben.</p>
+        <div class="impressum-link">
+            <a href="javascript:void(0)" onclick="openImpressumModal()">Impressum & Datenschutz</a>
         </div>
         </div>
     </div>
@@ -513,11 +540,24 @@
             }
         }
 
+        // Open Impressum modal
+        function openImpressumModal() {
+            document.getElementById('impressumModal').style.display = 'block';
+        }
+
+        // Close Impressum modal
+        function closeImpressumModal() {
+            document.getElementById('impressumModal').style.display = 'none';
+        }
+
         // Close modal when clicking outside of it
         window.onclick = function(event) {
-            const modal = document.getElementById('adminModal');
-            if (event.target === modal) {
+            const adminModal = document.getElementById('adminModal');
+            const impressumModal = document.getElementById('impressumModal');
+            if (event.target === adminModal) {
                 closeAdminModal();
+            } else if (event.target === impressumModal) {
+                closeImpressumModal();
             }
         }
 
