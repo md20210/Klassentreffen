@@ -467,7 +467,7 @@
         // Teilnehmerliste laden und anzeigen
         async function loadParticipants() {
             try {
-                const response = await fetch('/api/klassentreffen/participants');
+                const response = await fetch('https://api.dabrock.info/api/klassentreffen/participants');
                 const data = await response.json();
                 displayParticipants(data.participants);
                 updateParticipantsCount();
@@ -517,7 +517,7 @@
             }
 
             try {
-                const response = await fetch('/api/klassentreffen/register', {
+                const response = await fetch('https://api.dabrock.info/api/klassentreffen/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -547,7 +547,7 @@
             };
 
             try {
-                const response = await fetch('/api/klassentreffen/register', {
+                const response = await fetch('https://api.dabrock.info/api/klassentreffen/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -574,7 +574,7 @@
         // Teilnehmerzahl aktualisieren
         async function updateParticipantsCount() {
             try {
-                const response = await fetch('/api/klassentreffen/count');
+                const response = await fetch('https://api.dabrock.info/api/klassentreffen/count');
                 const data = await response.json();
                 document.getElementById('participantsCount').textContent =
                     `Bereits ${data.count} Teilnehmer haben ihre E-Mail-Adresse hinterlegt!`;
@@ -586,7 +586,7 @@
         // Word-Download Funktion
         async function downloadWord() {
             try {
-                const response = await fetch('/api/klassentreffen/participants');
+                const response = await fetch('https://api.dabrock.info/api/klassentreffen/participants');
                 const data = await response.json();
 
                 // Erstelle eine einfache HTML-Tabelle für Word
