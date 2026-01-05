@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klassentreffen - Wir freuen uns auf Dich!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .motivation {
+            background: #f8f9ff;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+
+        .motivation p {
+            color: #444;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .success-message {
+            display: none;
+            background: #4caf50;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .participants-count {
+            text-align: center;
+            color: #667eea;
+            font-weight: 600;
+            margin-top: 20px;
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Klassentreffen!</h1>
+        <p class="subtitle">Lasst uns die alten Zeiten aufleben lassen!</p>
+
+        <div class="motivation">
+            <p><strong>Liebe Klassenkameraden und Klassenkameradinnen!</strong></p>
+            <p>Die Schulzeit liegt schon eine Weile zurück, aber die Erinnerungen bleiben unvergesslich! Es wird Zeit, dass wir uns alle wiedersehen, gemeinsam lachen und in Erinnerungen schwelgen.</p>
+            <p>Bitte trage Dich hier mit Deiner E-Mail-Adresse ein, damit wir Dich über alle Details zum Klassentreffen informieren können!</p>
+        </div>
+
+        <form id="emailForm">
+            <div class="form-group">
+                <label for="name">Dein Name</label>
+                <select id="name" name="name" required>
+                    <option value="">Bitte wählen...</option>
+                    <!-- Namen werden hier eingefügt -->
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Deine E-Mail-Adresse</label>
+                <input type="email" id="email" name="email" placeholder="deine@email.de" required>
+            </div>
+
+            <button type="submit">Jetzt anmelden!</button>
+        </form>
+
+        <div class="success-message" id="successMessage">
+            Vielen Dank! Wir freuen uns darauf, Dich wiederzusehen!
+        </div>
+
+        <div class="participants-count" id="participantsCount">
+            <!-- Anzahl wird hier angezeigt -->
+        </div>
+    </div>
+
+    <script>
+        // Hier werden die Namen eingefügt
+        const names = [
+            "Carsten Dobschall",
+            "Michael Dütting",
+            "Ansgar Ellermann",
+            "Irene Etmann (jetzt: Bils)",
+            "Klaus Gunnemann",
+            "Stefan Hille",
+            "Peter Hoppe",
+            "Martina Höptner (jetzt: Hecker)",
+            "Stephan Horstmann",
+            "Ralf Huihsen",
+            "Stephan Kappen",
+            "Klaus Klöker",
+            "Bernd Kottmann",
+            "Klaus Loskant",
+            "Sabine Lünnemann (jetzt: Vortkamp)",
+            "Andreas Menke",
+            "Stephan Quiel",
+            "Roland Rietkoetter",
+            "Olaf Saphörster",
+            "Annette Schwarte",
+            "Andre Sickmann",
+            "Thomas Siebert",
+            "Eike Silvester Wiemann",
+            "Magnus Wolke",
+            "Heinz Wöstmann",
+            "Gernot Becker",
+            "Christiane Buck (jetzt: Schmidt)",
+            "Michael Dabrock",
+            "Jochen Dahm",
+            "Melanie Dörholt",
+            "Birgit Dohmen (jetzt: Decker)",
+            "Patric Droste zu Senden",
+            "Roman Feil",
+            "Georg Fels",
+            "Andreas Golf",
+            "Klaus Günther",
+            "Volker Hahn",
+            "Karin Harnisch",
+            "Frank Kloppenburg",
+            "Dirk Köwener",
+            "Harald Kröger",
+            "Peter Lahrkamp",
+            "Bernd Lehmann",
+            "Katrin Lumma",
+            "Mechthild Lütke Kleimann",
+            "Silke Mersmann (jetzt: Born)",
+            "Dirk Neufelder",
+            "Ursula Neumann",
+            "Josef Niehoff",
+            "Stefan Niggemeyer",
+            "Gerhard Nowak",
+            "Madueke Okegwo",
+            "Renate Ostermeyer",
+            "Bettina Otto",
+            "Mechthild Rickert",
+            "Axel Ritter",
+            "Eva Sandhage (jetzt: Wehmeyer-Sandhage)",
+            "Ralf Schupp",
+            "Bettina Seidensticker",
+            "Martin Sommermeyer",
+            "Peter Sperling",
+            "Wolfgang Spille",
+            "Benedikt Sudbrock",
+            "Thomas Terrahe",
+            "Volker Welp",
+            "Susanne Wettwer",
+            "Uwe Wilme",
+            "Reinhold Albrecht",
+            "Peter Alt-Epping",
+            "Konstanze Bader",
+            "Michael Beneke",
+            "Marc Böddecker",
+            "Georg Bratke",
+            "Carsten Brüning",
+            "Andreas Döpp",
+            "Jürgen Dorgeist",
+            "Oliver Dütschke",
+            "Dirk Eberhardt",
+            "Reinhild Erling",
+            "Marie-Luise Ernst (jetzt: Terrahe)",
+            "Mathias Eßing",
+            "Karsten Evers",
+            "Christian Fischer",
+            "Sabine Gädeke",
+            "Veronica Gohl",
+            "Anne Grewe (jetzt: Vetter)",
+            "Monika Haye (jetzt: Gaedeke)",
+            "Jörg Hecker",
+            "Andrea Heller",
+            "Ingo Hentschel",
+            "Jörg Hesselink",
+            "Annegret Hobbeling",
+            "Markus Hock",
+            "Thomas Hörnemann",
+            "Bettina Horstmann",
+            "Volker Hund",
+            "Marcus Janotta",
+            "Stephan Kehr",
+            "Renate Kellers (jetzt:? Herzog)",
+            "Martin Kintrup",
+            "Annette Knirim",
+            "Bernd Korves",
+            "Michael Laermann",
+            "Petra Lindner (jetzt: Hubeny-Lindner)",
+            "Dominik Löer",
+            "Friedrich Lührmann",
+            "Arno Lutz",
+            "David Lützenkirchen",
+            "Henning Meißner",
+            "Frank Mense",
+            "Thomas Mertens",
+            "Matthias Michalczyk",
+            "Oliver Müllmann",
+            "Anja Neumann-Wedekindt",
+            "Jürgen Proch",
+            "David Rehmann",
+            "Katrin Richter",
+            "Barbara Sauer",
+            "Fabian Sauerwald",
+            "Tobias Sauerwald",
+            "Klaus Schaphorn",
+            "Thomas Schleicher",
+            "Anne Schlummer",
+            "Frank Schulte",
+            "Ludger Schwarte",
+            "Harald Siegmund",
+            "Andreas Südbeck",
+            "Helmut Südmersen",
+            "Wolfgang Thomas",
+            "Clarus von der Horst",
+            "Kai Wengler",
+            "Melanie Wessels",
+            "Roland Wilmes"
+        ];
+
+        // Namen zum Select hinzufügen
+        const nameSelect = document.getElementById('name');
+        names.forEach(name => {
+            const option = document.createElement('option');
+            option.value = name;
+            option.textContent = name;
+            nameSelect.appendChild(option);
+        });
+
+        // Form submission
+        document.getElementById('emailForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                // Hier wird die API-Anfrage an das Backend gesendet
+                const response = await fetch('/api/klassentreffen/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    document.getElementById('emailForm').style.display = 'none';
+                    document.getElementById('successMessage').style.display = 'block';
+                    updateParticipantsCount();
+                } else {
+                    alert('Es gab einen Fehler. Bitte versuche es erneut.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Es gab einen Fehler. Bitte versuche es erneut.');
+            }
+        });
+
+        // Teilnehmerzahl aktualisieren
+        async function updateParticipantsCount() {
+            try {
+                const response = await fetch('/api/klassentreffen/count');
+                const data = await response.json();
+                document.getElementById('participantsCount').textContent =
+                    `Bereits ${data.count} Teilnehmer haben sich angemeldet!`;
+            } catch (error) {
+                console.error('Error fetching count:', error);
+            }
+        }
+
+        // Beim Laden die Anzahl abrufen
+        updateParticipantsCount();
+    </script>
+</body>
+</html>
