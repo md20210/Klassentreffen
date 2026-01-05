@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Klassentreffen - Wir freuen uns auf Dich!</title>
+    <title>40-jähriges Abi-Treffen vom Rats</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.42.3/docxtemplater.js"></script>
+    <script src="https://unpkg.com/pizzip@3.1.4/dist/pizzip.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -25,7 +28,7 @@
             background: white;
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 600px;
+            max-width: 800px;
             width: 100%;
             padding: 40px;
             animation: slideIn 0.5s ease-out;
@@ -141,6 +144,77 @@
             font-size: 1.1em;
         }
 
+        .download-section {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .download-button {
+            background: linear-gradient(135deg, #43a047 0%, #66bb6a 100%);
+            margin-top: 15px;
+        }
+
+        .download-button:hover {
+            box-shadow: 0 5px 15px rgba(67, 160, 71, 0.4);
+        }
+
+        .participants-list {
+            margin-top: 30px;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .participant-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #f8f9ff;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+
+        .participant-item:hover {
+            background: #e8edff;
+        }
+
+        .participant-name {
+            font-weight: 600;
+            color: #333;
+            flex: 1;
+        }
+
+        .participant-email {
+            flex: 2;
+            margin-left: 15px;
+        }
+
+        .participant-email input {
+            padding: 8px;
+            font-size: 14px;
+        }
+
+        .edit-button {
+            padding: 8px 15px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
+            width: auto;
+        }
+
+        .edit-button:hover {
+            background: #5568d3;
+        }
+
         @media (max-width: 600px) {
             .container {
                 padding: 25px;
@@ -148,18 +222,32 @@
             h1 {
                 font-size: 2em;
             }
+            .participant-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .participant-email {
+                width: 100%;
+                margin-left: 0;
+                margin-top: 10px;
+            }
+            .edit-button {
+                margin-left: 0;
+                margin-top: 10px;
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Klassentreffen!</h1>
-        <p class="subtitle">Lasst uns die alten Zeiten aufleben lassen!</p>
+        <h1>40-jähriges Abi-Treffen</h1>
+        <p class="subtitle">Ratsgymnasium - Lasst uns die Schulzeit feiern!</p>
 
         <div class="motivation">
-            <p><strong>Liebe Klassenkameraden und Klassenkameradinnen!</strong></p>
-            <p>Die Schulzeit liegt schon eine Weile zurück, aber die Erinnerungen bleiben unvergesslich! Es wird Zeit, dass wir uns alle wiedersehen, gemeinsam lachen und in Erinnerungen schwelgen.</p>
-            <p>Bitte trage Dich hier mit Deiner E-Mail-Adresse ein, damit wir Dich über alle Details zum Klassentreffen informieren können!</p>
+            <p><strong>Liebe Abiturientinnen und Abiturienten!</strong></p>
+            <p>40 Jahre nach unserem Abitur am Ratsgymnasium ist es Zeit für ein großes Wiedersehen! Diese E-Mail-Sammlung dient der Organisation und Einladung aller Absolventinnen und Absolventen.</p>
+            <p>Bitte trage Dich hier mit Deiner E-Mail-Adresse ein oder aktualisiere Deine bestehende Adresse, damit wir Dich über alle Details zum Treffen informieren können!</p>
         </div>
 
         <form id="emailForm">
@@ -167,7 +255,6 @@
                 <label for="name">Dein Name</label>
                 <select id="name" name="name" required>
                     <option value="">Bitte wählen...</option>
-                    <!-- Namen werden hier eingefügt -->
                 </select>
             </div>
 
@@ -176,20 +263,30 @@
                 <input type="email" id="email" name="email" placeholder="deine@email.de" required>
             </div>
 
-            <button type="submit">Jetzt anmelden!</button>
+            <button type="submit">E-Mail speichern / aktualisieren</button>
         </form>
 
         <div class="success-message" id="successMessage">
-            Vielen Dank! Wir freuen uns darauf, Dich wiederzusehen!
+            Vielen Dank! Deine E-Mail-Adresse wurde gespeichert!
         </div>
 
         <div class="participants-count" id="participantsCount">
             <!-- Anzahl wird hier angezeigt -->
         </div>
+
+        <div class="download-section">
+            <h2 style="color: #667eea; margin-bottom: 15px; text-align: center;">Download</h2>
+            <button class="download-button" onclick="downloadWord()">
+                Liste als Word-Dokument herunterladen
+            </button>
+        </div>
+
+        <div class="participants-list" id="participantsList">
+            <!-- Teilnehmerliste wird hier eingefügt -->
+        </div>
     </div>
 
     <script>
-        // Hier werden die Namen eingefügt
         const names = [
             "Carsten Dobschall",
             "Michael Dütting",
@@ -335,6 +432,79 @@
             nameSelect.appendChild(option);
         });
 
+        // Teilnehmerliste laden und anzeigen
+        async function loadParticipants() {
+            try {
+                const response = await fetch('/api/klassentreffen/participants');
+                const data = await response.json();
+                displayParticipants(data.participants);
+                updateParticipantsCount();
+            } catch (error) {
+                console.error('Error loading participants:', error);
+            }
+        }
+
+        // Teilnehmer anzeigen
+        function displayParticipants(participants) {
+            const listContainer = document.getElementById('participantsList');
+            listContainer.innerHTML = '<h3 style="color: #667eea; margin-bottom: 15px;">Alle Teilnehmer</h3>';
+
+            participants.forEach(participant => {
+                const item = document.createElement('div');
+                item.className = 'participant-item';
+                item.innerHTML = `
+                    <div class="participant-name">${participant.name}</div>
+                    <div class="participant-email">
+                        <input type="email"
+                               id="email-${encodeURIComponent(participant.name)}"
+                               value="${participant.email || ''}"
+                               placeholder="email@example.de">
+                    </div>
+                    <button class="edit-button" onclick="updateEmail('${participant.name.replace(/'/g, "\\'")}')">
+                        Speichern
+                    </button>
+                `;
+                listContainer.appendChild(item);
+            });
+        }
+
+        // E-Mail aktualisieren
+        async function updateEmail(name) {
+            const emailInput = document.getElementById(`email-${encodeURIComponent(name)}`);
+            const email = emailInput.value;
+
+            if (!email) {
+                alert('Bitte gib eine E-Mail-Adresse ein.');
+                return;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Bitte gib eine gültige E-Mail-Adresse ein.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/klassentreffen/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, email })
+                });
+
+                if (response.ok) {
+                    alert('E-Mail-Adresse erfolgreich gespeichert!');
+                    loadParticipants();
+                } else {
+                    alert('Fehler beim Speichern. Bitte versuche es erneut.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Fehler beim Speichern. Bitte versuche es erneut.');
+            }
+        }
+
         // Form submission
         document.getElementById('emailForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -342,11 +512,9 @@
             const formData = {
                 name: document.getElementById('name').value,
                 email: document.getElementById('email').value,
-                timestamp: new Date().toISOString()
             };
 
             try {
-                // Hier wird die API-Anfrage an das Backend gesendet
                 const response = await fetch('/api/klassentreffen/register', {
                     method: 'POST',
                     headers: {
@@ -356,9 +524,12 @@
                 });
 
                 if (response.ok) {
-                    document.getElementById('emailForm').style.display = 'none';
                     document.getElementById('successMessage').style.display = 'block';
-                    updateParticipantsCount();
+                    setTimeout(() => {
+                        document.getElementById('successMessage').style.display = 'none';
+                    }, 3000);
+                    document.getElementById('emailForm').reset();
+                    loadParticipants();
                 } else {
                     alert('Es gab einen Fehler. Bitte versuche es erneut.');
                 }
@@ -374,14 +545,84 @@
                 const response = await fetch('/api/klassentreffen/count');
                 const data = await response.json();
                 document.getElementById('participantsCount').textContent =
-                    `Bereits ${data.count} Teilnehmer haben sich angemeldet!`;
+                    `Bereits ${data.count} Teilnehmer haben ihre E-Mail-Adresse hinterlegt!`;
             } catch (error) {
                 console.error('Error fetching count:', error);
             }
         }
 
-        // Beim Laden die Anzahl abrufen
-        updateParticipantsCount();
+        // Word-Download Funktion
+        async function downloadWord() {
+            try {
+                const response = await fetch('/api/klassentreffen/participants');
+                const data = await response.json();
+
+                // Erstelle eine einfache HTML-Tabelle für Word
+                let content = `
+                    <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+                    <head><meta charset='utf-8'><title>40-jähriges Abi-Treffen - Teilnehmerliste</title></head>
+                    <body>
+                        <h1 style="text-align: center; color: #667eea;">40-jähriges Abi-Treffen vom Ratsgymnasium</h1>
+                        <h2 style="text-align: center; color: #666;">Teilnehmerliste mit E-Mail-Adressen</h2>
+                        <p style="text-align: center; color: #666;">Erstellt am ${new Date().toLocaleDateString('de-DE')}</p>
+                        <br>
+                        <table border="1" style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background-color: #667eea; color: white;">
+                                    <th style="padding: 10px; text-align: left;">Nr.</th>
+                                    <th style="padding: 10px; text-align: left;">Name</th>
+                                    <th style="padding: 10px; text-align: left;">E-Mail-Adresse</th>
+                                    <th style="padding: 10px; text-align: left;">Registriert am</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+
+                data.participants.forEach((p, index) => {
+                    const registeredDate = p.registered_at && p.email ?
+                        new Date(p.registered_at).toLocaleDateString('de-DE') : '-';
+                    content += `
+                        <tr>
+                            <td style="padding: 8px;">${index + 1}</td>
+                            <td style="padding: 8px;">${p.name}</td>
+                            <td style="padding: 8px;">${p.email || 'Noch keine E-Mail'}</td>
+                            <td style="padding: 8px;">${registeredDate}</td>
+                        </tr>
+                    `;
+                });
+
+                content += `
+                            </tbody>
+                        </table>
+                        <br>
+                        <p style="color: #666;">Gesamtanzahl: ${data.participants.length} Personen</p>
+                        <p style="color: #666;">Davon mit E-Mail: ${data.participants.filter(p => p.email).length} Personen</p>
+                    </body>
+                    </html>
+                `;
+
+                // Erstelle Blob und Download
+                const blob = new Blob(['\ufeff', content], {
+                    type: 'application/msword'
+                });
+
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = '40-jaehriges-Abi-Treffen-Teilnehmerliste.doc';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+
+            } catch (error) {
+                console.error('Error downloading Word document:', error);
+                alert('Fehler beim Erstellen des Downloads.');
+            }
+        }
+
+        // Beim Laden die Teilnehmer laden
+        loadParticipants();
     </script>
 </body>
 </html>

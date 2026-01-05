@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>40-jähriges Abi-Treffen vom Rats</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 900px;
+            width: 100%;
+            padding: 40px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .motivation {
+            background: #f8f9ff;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+
+        .motivation p {
+            color: #444;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .participants-count {
+            text-align: center;
+            color: #667eea;
+            font-weight: 600;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+
+        .download-section {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+            text-align: center;
+        }
+
+        .download-button {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #43a047 0%, #66bb6a 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .download-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 160, 71, 0.4);
+        }
+
+        .participants-list {
+            margin-top: 30px;
+            max-height: 500px;
+            overflow-y: auto;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .participants-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .participants-table thead {
+            background: #667eea;
+            color: white;
+            position: sticky;
+            top: 0;
+        }
+
+        .participants-table th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .participants-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .participants-table tbody tr:hover {
+            background: #f8f9ff;
+        }
+
+        .participants-table input[type="email"] {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .participants-table input[type="email"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .save-all-button {
+            margin-top: 20px;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .save-all-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            .participants-table {
+                font-size: 14px;
+            }
+            .participants-table th,
+            .participants-table td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>40-jähriges Abi-Treffen</h1>
+        <p class="subtitle">Ratsgymnasium - Lasst uns die Schulzeit feiern!</p>
+
+        <div class="motivation">
+            <p><strong>Liebe Abiturientinnen und Abiturienten!</strong></p>
+            <p>40 Jahre nach unserem Abitur am Ratsgymnasium ist es Zeit für ein großes Wiedersehen! Diese E-Mail-Sammlung dient der Organisation und Einladung aller Absolventinnen und Absolventen.</p>
+            <p>Bitte trage Deine E-Mail-Adresse direkt in der Liste unten ein. Alle Änderungen werden automatisch im Browser gespeichert.</p>
+        </div>
+
+        <div class="participants-count" id="participantsCount">
+            <!-- Anzahl wird hier angezeigt -->
+        </div>
+
+        <div class="download-section">
+            <h2 style="color: #667eea; margin-bottom: 15px;">Download & Speichern</h2>
+            <div class="button-group">
+                <button class="download-button" onclick="downloadWord()">
+                    📄 Als Word-Dokument herunterladen
+                </button>
+                <button class="download-button" onclick="downloadExcel()">
+                    📊 Als Excel-Datei herunterladen
+                </button>
+            </div>
+        </div>
+
+        <div class="participants-list">
+            <h3 style="color: #667eea; margin-bottom: 15px;">Alle Teilnehmer (133 Personen)</h3>
+            <table class="participants-table">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">Nr.</th>
+                        <th style="width: 40%;">Name</th>
+                        <th style="width: 60%;">E-Mail-Adresse</th>
+                    </tr>
+                </thead>
+                <tbody id="participantsList">
+                    <!-- Teilnehmer werden hier eingefügt -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const names = [
+            "Carsten Dobschall", "Michael Dütting", "Ansgar Ellermann", "Irene Etmann (jetzt: Bils)",
+            "Klaus Gunnemann", "Stefan Hille", "Peter Hoppe", "Martina Höptner (jetzt: Hecker)",
+            "Stephan Horstmann", "Ralf Huihsen", "Stephan Kappen", "Klaus Klöker",
+            "Bernd Kottmann", "Klaus Loskant", "Sabine Lünnemann (jetzt: Vortkamp)", "Andreas Menke",
+            "Stephan Quiel", "Roland Rietkoetter", "Olaf Saphörster", "Annette Schwarte",
+            "Andre Sickmann", "Thomas Siebert", "Eike Silvester Wiemann", "Magnus Wolke",
+            "Heinz Wöstmann", "Gernot Becker", "Christiane Buck (jetzt: Schmidt)", "Michael Dabrock",
+            "Jochen Dahm", "Melanie Dörholt", "Birgit Dohmen (jetzt: Decker)", "Patric Droste zu Senden",
+            "Roman Feil", "Georg Fels", "Andreas Golf", "Klaus Günther",
+            "Volker Hahn", "Karin Harnisch", "Frank Kloppenburg", "Dirk Köwener",
+            "Harald Kröger", "Peter Lahrkamp", "Bernd Lehmann", "Katrin Lumma",
+            "Mechthild Lütke Kleimann", "Silke Mersmann (jetzt: Born)", "Dirk Neufelder", "Ursula Neumann",
+            "Josef Niehoff", "Stefan Niggemeyer", "Gerhard Nowak", "Madueke Okegwo",
+            "Renate Ostermeyer", "Bettina Otto", "Mechthild Rickert", "Axel Ritter",
+            "Eva Sandhage (jetzt: Wehmeyer-Sandhage)", "Ralf Schupp", "Bettina Seidensticker", "Martin Sommermeyer",
+            "Peter Sperling", "Wolfgang Spille", "Benedikt Sudbrock", "Thomas Terrahe",
+            "Volker Welp", "Susanne Wettwer", "Uwe Wilme", "Reinhold Albrecht",
+            "Peter Alt-Epping", "Konstanze Bader", "Michael Beneke", "Marc Böddecker",
+            "Georg Bratke", "Carsten Brüning", "Andreas Döpp", "Jürgen Dorgeist",
+            "Oliver Dütschke", "Dirk Eberhardt", "Reinhild Erling", "Marie-Luise Ernst (jetzt: Terrahe)",
+            "Mathias Eßing", "Karsten Evers", "Christian Fischer", "Sabine Gädeke",
+            "Veronica Gohl", "Anne Grewe (jetzt: Vetter)", "Monika Haye (jetzt: Gaedeke)", "Jörg Hecker",
+            "Andrea Heller", "Ingo Hentschel", "Jörg Hesselink", "Annegret Hobbeling",
+            "Markus Hock", "Thomas Hörnemann", "Bettina Horstmann", "Volker Hund",
+            "Marcus Janotta", "Stephan Kehr", "Renate Kellers (jetzt:? Herzog)", "Martin Kintrup",
+            "Annette Knirim", "Bernd Korves", "Michael Laermann", "Petra Lindner (jetzt: Hubeny-Lindner)",
+            "Dominik Löer", "Friedrich Lührmann", "Arno Lutz", "David Lützenkirchen",
+            "Henning Meißner", "Frank Mense", "Thomas Mertens", "Matthias Michalczyk",
+            "Oliver Müllmann", "Anja Neumann-Wedekindt", "Jürgen Proch", "David Rehmann",
+            "Katrin Richter", "Barbara Sauer", "Fabian Sauerwald", "Tobias Sauerwald",
+            "Klaus Schaphorn", "Thomas Schleicher", "Anne Schlummer", "Frank Schulte",
+            "Ludger Schwarte", "Harald Siegmund", "Andreas Südbeck", "Helmut Südmersen",
+            "Wolfgang Thomas", "Clarus von der Horst", "Kai Wengler", "Melanie Wessels",
+            "Roland Wilmes"
+        ];
+
+        // LocalStorage Key
+        const STORAGE_KEY = 'klassentreffen_emails';
+
+        // E-Mails aus LocalStorage laden
+        function loadEmails() {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            return stored ? JSON.parse(stored) : {};
+        }
+
+        // E-Mails in LocalStorage speichern
+        function saveEmails(emails) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(emails));
+            updateParticipantsCount();
+        }
+
+        // E-Mail für einen Namen aktualisieren
+        function updateEmail(name, email) {
+            const emails = loadEmails();
+            if (email && email.trim()) {
+                emails[name] = email.trim();
+            } else {
+                delete emails[name];
+            }
+            saveEmails(emails);
+        }
+
+        // Teilnehmerliste anzeigen
+        function displayParticipants() {
+            const emails = loadEmails();
+            const listContainer = document.getElementById('participantsList');
+            listContainer.innerHTML = '';
+
+            names.forEach((name, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${name}</td>
+                    <td>
+                        <input type="email"
+                               id="email-${index}"
+                               value="${emails[name] || ''}"
+                               placeholder="email@example.de"
+                               onchange="updateEmail('${name.replace(/'/g, "\\'")}', this.value)">
+                    </td>
+                `;
+                listContainer.appendChild(row);
+            });
+
+            updateParticipantsCount();
+        }
+
+        // Teilnehmerzahl aktualisieren
+        function updateParticipantsCount() {
+            const emails = loadEmails();
+            const count = Object.keys(emails).filter(name => emails[name]).length;
+            document.getElementById('participantsCount').textContent =
+                `Bereits ${count} von ${names.length} Teilnehmern haben ihre E-Mail-Adresse hinterlegt!`;
+        }
+
+        // Word-Download Funktion
+        function downloadWord() {
+            const emails = loadEmails();
+
+            let content = `
+                <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+                <head><meta charset='utf-8'><title>40-jähriges Abi-Treffen - Teilnehmerliste</title></head>
+                <body>
+                    <h1 style="text-align: center; color: #667eea;">40-jähriges Abi-Treffen vom Ratsgymnasium</h1>
+                    <h2 style="text-align: center; color: #666;">Teilnehmerliste mit E-Mail-Adressen</h2>
+                    <p style="text-align: center; color: #666;">Erstellt am ${new Date().toLocaleDateString('de-DE')}</p>
+                    <br>
+                    <table border="1" style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background-color: #667eea; color: white;">
+                                <th style="padding: 10px; text-align: left;">Nr.</th>
+                                <th style="padding: 10px; text-align: left;">Name</th>
+                                <th style="padding: 10px; text-align: left;">E-Mail-Adresse</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            names.forEach((name, index) => {
+                content += `
+                    <tr>
+                        <td style="padding: 8px;">${index + 1}</td>
+                        <td style="padding: 8px;">${name}</td>
+                        <td style="padding: 8px;">${emails[name] || 'Noch keine E-Mail'}</td>
+                    </tr>
+                `;
+            });
+
+            const emailCount = Object.keys(emails).filter(name => emails[name]).length;
+            content += `
+                        </tbody>
+                    </table>
+                    <br>
+                    <p style="color: #666;">Gesamtanzahl: ${names.length} Personen</p>
+                    <p style="color: #666;">Davon mit E-Mail: ${emailCount} Personen</p>
+                </body>
+                </html>
+            `;
+
+            const blob = new Blob(['\ufeff', content], {
+                type: 'application/msword'
+            });
+
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = '40-jaehriges-Abi-Treffen-Teilnehmerliste.doc';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+
+        // Excel-Download Funktion (CSV-Format)
+        function downloadExcel() {
+            const emails = loadEmails();
+
+            let csv = '\ufeff'; // UTF-8 BOM für deutsche Umlaute
+            csv += 'Nr.;Name;E-Mail-Adresse\n';
+
+            names.forEach((name, index) => {
+                csv += `${index + 1};${name};${emails[name] || ''}\n`;
+            });
+
+            const blob = new Blob([csv], {
+                type: 'text/csv;charset=utf-8;'
+            });
+
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = '40-jaehriges-Abi-Treffen-Teilnehmerliste.csv';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+
+        // Beim Laden die Teilnehmer anzeigen
+        displayParticipants();
+    </script>
+</body>
+</html>
