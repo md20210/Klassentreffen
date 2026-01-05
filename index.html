@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>40-jähriges Abi-Treffen vom Rats</title>
+    <title>40-jähriges Rats-Abi-Treffen</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.42.3/docxtemplater.js"></script>
     <script src="https://unpkg.com/pizzip@3.1.4/dist/pizzip.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
@@ -364,7 +364,7 @@
         <!-- Sticky Header -->
         <div class="header-sticky">
             <button class="admin-button" id="adminButton" onclick="toggleAdminLogin()">Admin</button>
-            <h1>40-jähriges Abi-Treffen</h1>
+            <h1>40-jähriges Rats-Abi-Treffen</h1>
             <p class="subtitle">Ratsgymnasium - Lasst uns die Schulzeit feiern!</p>
         </div>
 
@@ -372,7 +372,7 @@
             <div class="motivation">
                 <p><strong>Liebe Abiturientinnen und Abiturienten!</strong></p>
                 <p>40 Jahre nach unserem Abitur am Ratsgymnasium ist es Zeit für ein großes Wiedersehen! Diese E-Mail-Sammlung dient der Organisation und Einladung aller Absolventinnen und Absolventen.</p>
-                <p><strong>Alle Änderungen werden in einer zentralen Datenbank gespeichert!</strong> Jeder kann die E-Mail-Adressen sehen und bearbeiten.</p>
+                <p><strong>Alle Änderungen werden in einer zentralen Datenbank gespeichert!</strong> Aber nur das Organisationskomitee hat Zugriff auf Eure Daten!</p>
             </div>
 
             <form id="emailForm">
@@ -742,6 +742,7 @@
             const formData = {
                 name: document.getElementById('name').value,
                 email: document.getElementById('email').value,
+                consent: document.getElementById('consent').checked
             };
 
             try {
@@ -790,9 +791,9 @@
                 // Erstelle eine einfache HTML-Tabelle für Word
                 let content = `
                     <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-                    <head><meta charset='utf-8'><title>40-jähriges Abi-Treffen - Registrierte Teilnehmer</title></head>
+                    <head><meta charset='utf-8'><title>40-jähriges Rats-Abi-Treffen - Registrierte Teilnehmer</title></head>
                     <body>
-                        <h1 style="text-align: center; color: #667eea;">40-jähriges Abi-Treffen vom Ratsgymnasium</h1>
+                        <h1 style="text-align: center; color: #667eea;">40-jähriges Rats-Abi-Treffen vom Ratsgymnasium</h1>
                         <h2 style="text-align: center; color: #666;">Registrierte Teilnehmer mit E-Mail-Adressen</h2>
                         <p style="text-align: center; color: #666;">Erstellt am ${new Date().toLocaleDateString('de-DE')}</p>
                         <p style="text-align: center; color: #666; font-size: 12px; margin-top: 10px;">
