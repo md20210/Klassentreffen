@@ -419,8 +419,26 @@
                 <!-- Registrierte Teilnehmer werden hier angezeigt -->
             </div>
             <button class="download-button" onclick="downloadRegisteredWord()">
-                📄 Registrierte als Word-Dokument herunterladen
+                📄 Als Word-Dokument herunterladen
             </button>
+            <button class="download-button" onclick="downloadRegisteredExcel()" style="margin-top: 10px;">
+                📊 Als Excel-Datei herunterladen
+            </button>
+        </div>
+
+        <div style="margin-top: 40px; padding-top: 30px; border-top: 2px solid #e0e0e0; font-size: 12px; color: #666;">
+            <h3 style="color: #667eea; margin-bottom: 10px;">Impressum & Datenschutz</h3>
+            <p><strong>Verantwortlich für diese Seite:</strong><br>
+            Michael Dabrock<br>
+            E-Mail: Michael.dabrock@gmx.es</p>
+
+            <p style="margin-top: 15px;"><strong>Widerruf der Einwilligung:</strong><br>
+            Sie können Ihre Einwilligung zur Speicherung und Nutzung Ihrer E-Mail-Adresse jederzeit widerrufen.
+            Senden Sie dazu einfach eine E-Mail an Michael.dabrock@gmx.es mit dem Betreff "Widerruf Klassentreffen".</p>
+
+            <p style="margin-top: 15px;"><strong>Datenschutz:</strong><br>
+            Ihre E-Mail-Adresse wird ausschließlich für die Organisation und Einladung zum 40-jährigen Abitur-Treffen verwendet.
+            Die Daten werden vertraulich behandelt und nicht an Dritte weitergegeben.</p>
         </div>
         </div>
     </div>
@@ -776,7 +794,7 @@
                 const response = await fetch('https://general-backend-production-a734.up.railway.app/api/klassentreffen/count');
                 const data = await response.json();
                 document.getElementById('participantsCount').textContent =
-                    `Bereits ${data.count} Teilnehmer haben ihre E-Mail-Adresse hinterlegt!`;
+                    `Bereits ${data.count} von 133 Teilnehmern haben ihre E-Mail-Adresse hinterlegt!`;
             } catch (error) {
                 console.error('Error fetching count:', error);
             }
@@ -860,6 +878,51 @@
 
             } catch (error) {
                 console.error('Error downloading Word document:', error);
+                alert('Fehler beim Erstellen des Downloads.');
+            }
+        }
+
+        // Excel-Download Funktion für registrierte Teilnehmer
+        async function downloadRegisteredExcel() {
+            try {
+                const response = await fetch('https://general-backend-production-a734.up.railway.app/api/klassentreffen/registered');
+                const data = await response.json();
+
+                // Beispiel-Teilnehmer an den Anfang stellen
+                const exampleParticipant = {
+                    name: "Joe Dow (Beispiel)",
+                    email: "beispiel@email.de",
+                    registered_at: new Date().toISOString()
+                };
+
+                const allParticipants = [exampleParticipant, ...data];
+
+                // CSV-Inhalt erstellen (Excel kann CSV öffnen)
+                let csvContent = '\ufeff'; // BOM für UTF-8
+                csvContent += 'Nr.;Name;E-Mail;Registriert am\n';
+
+                allParticipants.forEach((p, index) => {
+                    const registeredDate = p.registered_at ?
+                        new Date(p.registered_at).toLocaleDateString('de-DE') : '-';
+                    csvContent += `${index + 1};${p.name};${p.email || 'Noch keine E-Mail'};${registeredDate}\n`;
+                });
+
+                // Erstelle Blob und Download
+                const blob = new Blob([csvContent], {
+                    type: 'text/csv;charset=utf-8;'
+                });
+
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = '40-jaehriges-Rats-Abi-Treffen-Teilnehmerliste.csv';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+
+            } catch (error) {
+                console.error('Error downloading Excel file:', error);
                 alert('Fehler beim Erstellen des Downloads.');
             }
         }
