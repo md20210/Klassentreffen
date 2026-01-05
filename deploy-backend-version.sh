@@ -20,6 +20,7 @@ fi
 
 echo "📦 Files to deploy:"
 echo "  - index.html (Backend-Version)"
+echo "  - favicon.svg (Icon)"
 
 # Function to upload file
 upload_file() {
@@ -48,6 +49,11 @@ upload_file() {
 
 # Upload index.html
 upload_file "index.html" "index.html" "Klassentreffen Backend-Version" || exit 1
+
+# Upload favicon.svg if it exists
+if [ -f "favicon.svg" ]; then
+  upload_file "favicon.svg" "favicon.svg" "Favicon Icon" || echo "  ⚠️  Warning: Favicon upload failed (non-critical)"
+fi
 
 echo ""
 echo "✅ Deployment completed!"
