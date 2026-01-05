@@ -490,7 +490,6 @@
                 isAdminLoggedIn = false;
                 sessionStorage.removeItem('adminLoggedIn');
                 updateAdminUI();
-                alert('Erfolgreich abgemeldet.');
             } else {
                 // Show login modal
                 document.getElementById('adminModal').style.display = 'block';
@@ -516,9 +515,19 @@
                     sessionStorage.setItem('adminLoggedIn', 'true');
                     updateAdminUI();
                     closeAdminModal();
-                    alert('Erfolgreich als Admin angemeldet!');
                 } else {
-                    alert('Falscher Benutzername oder Passwort!');
+                    // Zeige Fehler im Formular statt Popup
+                    const form = document.getElementById('adminLoginForm');
+                    let errorMsg = form.querySelector('.error-message');
+                    if (!errorMsg) {
+                        errorMsg = document.createElement('p');
+                        errorMsg.className = 'error-message';
+                        errorMsg.style.color = '#d32f2f';
+                        errorMsg.style.textAlign = 'center';
+                        errorMsg.style.marginTop = '10px';
+                        form.appendChild(errorMsg);
+                    }
+                    errorMsg.textContent = 'Falscher Benutzername oder Passwort!';
                 }
             });
         });
@@ -830,6 +839,7 @@
             emailInput.style.display = 'inline-block';
             editBtn.style.display = 'none';
             saveBtn.style.display = 'inline-block';
+            emailInput.focus();
         }
 
         // Email speichern
@@ -838,9 +848,10 @@
             const newEmail = emailInput.value;
 
             if (!newEmail || !emailInput.checkValidity()) {
-                alert('Bitte geben Sie eine gültige E-Mail-Adresse ein.');
+                emailInput.style.borderColor = '#d32f2f';
                 return;
             }
+            emailInput.style.borderColor = '';
 
             try {
                 const response = await fetch('https://general-backend-production-a734.up.railway.app/api/klassentreffen/register', {
@@ -859,13 +870,11 @@
                     // Erfolgreich gespeichert - Liste neu laden
                     loadRegisteredParticipants();
                     updateNameDropdown();
-                    alert('E-Mail-Adresse erfolgreich aktualisiert!');
                 } else {
-                    alert('Fehler beim Speichern der E-Mail-Adresse.');
+                    console.error('Fehler beim Speichern der E-Mail-Adresse.');
                 }
             } catch (error) {
                 console.error('Error saving email:', error);
-                alert('Fehler beim Speichern der E-Mail-Adresse.');
             }
         }
 
@@ -886,13 +895,11 @@
                     loadRegisteredParticipants();
                     updateNameDropdown();
                     updateParticipantsCount();
-                    alert('E-Mail-Adresse erfolgreich gelöscht!');
                 } else {
-                    alert('Fehler beim Löschen der E-Mail-Adresse.');
+                    console.error('Fehler beim Löschen der E-Mail-Adresse.');
                 }
             } catch (error) {
                 console.error('Error deleting email:', error);
-                alert('Fehler beim Löschen der E-Mail-Adresse.');
             }
         }
 
@@ -923,12 +930,13 @@
                     }, 3000);
                     document.getElementById('emailForm').reset();
                     loadRegisteredParticipants();
+                    updateNameDropdown();
+                    updateParticipantsCount();
                 } else {
-                    alert('Es gab einen Fehler. Bitte versuche es erneut.');
+                    console.error('Es gab einen Fehler beim Registrieren.');
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('Es gab einen Fehler. Bitte versuche es erneut.');
             }
         });
 
