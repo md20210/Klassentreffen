@@ -15,10 +15,8 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             padding: 20px;
+            padding-top: 100px;
         }
 
         .container {
@@ -27,8 +25,25 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             max-width: 900px;
             width: 100%;
+            margin: 0 auto;
             padding: 40px;
             animation: slideIn 0.5s ease-out;
+        }
+
+        .header-sticky {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         @keyframes slideIn {
@@ -179,11 +194,17 @@
         }
 
         @media (max-width: 600px) {
+            body {
+                padding-top: 140px;
+            }
             .container {
                 padding: 25px;
             }
-            h1 {
-                font-size: 2em;
+            .header-sticky h1 {
+                font-size: 1.5em;
+            }
+            .header-sticky .subtitle {
+                font-size: 0.9em;
             }
             .participants-table {
                 font-size: 14px;
@@ -196,10 +217,15 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>40-jähriges Abi-Treffen</h1>
-        <p class="subtitle">Ratsgymnasium - Lasst uns die Schulzeit feiern!</p>
+    <!-- Sticky Header -->
+    <div class="header-sticky">
+        <div class="header-content">
+            <h1>40-jähriges Abi-Treffen</h1>
+            <p class="subtitle">Ratsgymnasium - Lasst uns die Schulzeit feiern!</p>
+        </div>
+    </div>
 
+    <div class="container">
         <div class="motivation">
             <p><strong>Liebe Abiturientinnen und Abiturienten!</strong></p>
             <p>40 Jahre nach unserem Abitur am Ratsgymnasium ist es Zeit für ein großes Wiedersehen! Diese E-Mail-Sammlung dient der Organisation und Einladung aller Absolventinnen und Absolventen.</p>
